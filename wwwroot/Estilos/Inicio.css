@@ -1,0 +1,24 @@
+﻿body {
+}
+
+#menu{
+    background-color:#ff6a00;
+}
+
+#titulos{
+    color:aliceblue;
+    font-size:18px;
+}
+
+a:hover{
+    color:#ff6a00;
+}
+
+#imagen{
+    height:40px;
+    width:200px;
+}
+
+#login{
+    right:400px;
+}

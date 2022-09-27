@@ -1,0 +1,162 @@
+﻿@model IEnumerable<WebApplication6.Models.Usuario>
+   @* @model DataPaginador<Usuario>*@
+@{
+    ViewData["Title"] = "Grupo Babel";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Usuarios</h1>
+</div>
+
+@if (TempData["Mensaje"]!=null)
+{
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+      @TempData["Mensaje"]
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+         <div class="float-right">
+             <a asp-action="Crear" asp-controller="Home" class="btn btn-success">Nuevo Usuario</a>
+         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+         <div class="card-border">
+             <div class="card-header">
+                <h3 class="text-center">Lista de usuario</h3>
+            </div>
+            <div class="text-right form-incline">
+                <from action=@Url.Action("ManteUsu", "Home") method="get">
+                <div class="form-group">
+                    @*@Html.TextBox("buscar", null, new {placeholder="Texto de busqueda",
+                  @class="form-control"  })*@
+                        @using (Html.BeginForm())
+                        {
+                        <input id="buscar" class="from-control"/>
+                            <a class="btn btn-primary" asp-action="ManteUsu" id="buscar">Buscar</a>
+                        }
+                        
+            </div>
+            </from>
+            </div>
+            
+            
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if(Model.Count() > 0)
+                    {
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Usuario</th>
+                                    <th>Contrasena</th>
+                                    <th>Correo</th>
+                                    <th>Telefono</th>
+                                    <th>Direccion</th>
+                                    <th>FechaNacimiento</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(a => item.Id)</td>                                   
+                                        <td>@Html.DisplayFor(a => item.Nombre)</td>                                    
+                                        <td>@Html.DisplayFor(a => item.Usu)</td>                                   
+                                        <td>@Html.DisplayFor(a => item.Contrasena)</td>
+                                        <td>@Html.DisplayFor(a => item.Correo)</td>
+                                        <td>@Html.DisplayFor(a => item.telefono)</td>
+                                        <td>@Html.DisplayFor(a => item.Direccion)</td>
+                                        <td>@Html.DisplayFor(a => item.FechaNacimiento)</td>
+                                        <td>
+                                            <a class="btn btn-primary" asp-action="Editar" asp-route-id="@item.Id">Editar</a>
+                                            <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@item.Id">Borrar</a>
+                                        </td>    
+                                        
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        
+                    }
+                    else
+                    {
+                        <p>No hay registros</p>
+                    }
+                </div>
+            </div>
+            <br />
+           @* @if (Model.Resultado.Count() > 0)
+{
+    <span>
+        <strong>@Model.TotalRegistros</strong> registros encontrados
+    </span>
+    <span>&nbsp;|&nbsp;</span>
+    <span>
+        Página <strong>@(Model.PaginaActual)</strong> de
+        <strong>@Model.TotalPaginas</strong>
+    </span>
+    <span>&nbsp;|&nbsp;</span>
+}
+else
+{
+    <span>No hay resultados para esta búsqueda</span>
+    <span>&nbsp;|&nbsp;</span>
+}
+
+@if (Model.PaginaActual > 1)
+{
+    @Html.ActionLink("<<", "Index", new { pagina = 1, buscar = Model.BusquedaActual },
+                        new { @class = "btn btn-sm btn-default" })
+    <span></span>
+    @Html.ActionLink("Anterior", "Index", new { pagina = Model.PaginaActual - 1,
+                                                buscar = Model.BusquedaActual },
+                                          new { @class = "btn btn-sm btn-default" })
+}
+else
+{
+    @Html.ActionLink("<<", "Index", new { pagina = 1,
+                                          buscar = Model.BusquedaActual },
+                                    new { @class = "btn btn-sm btn-default disabled" })
+    <span></span>
+    @Html.ActionLink("Anterior", "Index", new { pagina = 1,
+                                                buscar = Model.BusquedaActual },
+                                          new { @class = "btn btn-sm btn-default disabled" })
+}
+
+<span></span>
+
+@if (Model.PaginaActual < Model.TotalPaginas)
+{
+    @Html.ActionLink("Siguiente", "Index", new { pagina = Model.PaginaActual + 1,
+                                                 buscar = Model.BusquedaActual },
+                                           new { @class = "btn btn-sm btn-default" })
+    <span></span>
+    @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas,
+                                          buscar = Model.BusquedaActual },
+                                    new { @class = "btn btn-sm btn-default" })
+}
+else
+{
+    @Html.ActionLink("Siguiente", "Index", new { pagina = Model.TotalPaginas - 1,
+                                                 buscar = Model.BusquedaActual },
+                                           new { @class = "btn btn-sm btn-default disabled" })
+    <span></span>
+    @Html.ActionLink(">>", "Index", new { pagina = Model.TotalPaginas,
+                                          buscar = Model.BusquedaActual },
+                                    new { @class = "btn btn-sm btn-default disabled" })
+}
+         </div>
+    </div>
+
+</div>*@

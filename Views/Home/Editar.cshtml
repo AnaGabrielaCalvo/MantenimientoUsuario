@@ -1,0 +1,89 @@
+﻿@model WebApplication6.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+@if (TempData["Mensaje"]!=null)
+{
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+      @TempData["Mensaje"]
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<h1 class="text-center">
+    Editar Usuario
+</h1>
+
+<div class="row">
+    <div class="col-sm-12">
+         <div class="card-border">
+                <div class="card-header">
+                      <h3 class="text-center">Editar Usuario</h3>
+                 </div>
+                 <div class="card-body">
+                <form asp-controller="Home" asp-action="Editar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @*enviar el id del campo como oculto*@
+                    <input type="hidden" form="Id"/>
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="from-control"/>
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                     <div class="form-group">
+                        <label asp-for="Usu" class="control-label"></label>
+                        <input asp-for="Usu" class="from-control" readonly/>
+                        <span asp-validation-for="Usu" class="text-danger"></span>
+                    </div>
+
+                     <div class="form-group">
+                        <label asp-for="Contrasena" class="control-label"></label>
+                        <input asp-for="Contrasena" class="from-control" type="password"/>
+                        <span asp-validation-for="Contrasena" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CContrasena" class="control-label"></label>
+                        <input asp-for="CContrasena" class="from-control" type="password"/>
+                        <span asp-validation-for="CContrasena" class="text-danger"></span>
+                    </div>
+
+                     <div class="form-group">
+                        <label asp-for="Correo" class="control-label"></label>
+                        <input asp-for="Correo" class="from-control" type="email" title="Sólo se permite el dominio grupobabel.com"/>
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div> 
+
+                    <div class="form-group">
+                        <label asp-for="telefono" class="control-label"></label>
+                        <input asp-for="telefono" class="from-control" type="tel" pattern="[0-9]{4}-[0-9]{4}" title="El formato para el télefono es ####-####"/>
+                        <span asp-validation-for="telefono" class="text-danger"></span>
+                    </div> 
+
+                    <div class="form-group">
+                        <label asp-for="Direccion" class="control-label"></label>
+                        <input asp-for="Direccion" class="from-control"/>
+                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                    </div> 
+
+                    <div class="form-group">
+                        <label asp-for="FechaNacimiento" class="control-label"></label>
+                        <input asp-for="FechaNacimiento" class="from-control"/>
+                        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                    </div> 
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Editar usuario</button>
+                    </div> 
+                    </form>
+                </div>
+         </div>
+    </div>
+
+</div>
+<div>
+    <a asp-action="ManteUsu">volver a la lista</a>
+</div>
