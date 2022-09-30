@@ -21,115 +21,77 @@ namespace WebApplication6.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ManteUsu(string buscar)
+        public async Task<IActionResult> ManteUsu(string orden, string buscar, string filtro, int ? page)
         {
-            //ViewBag.NameSortParm = string.IsNullOrEmpty(buscar) ? "Nombre_desc" : "";
-            //ViewBag.DateSortParm = buscar == "FechaNacimiento" ? "Fecha_desc" : "Date";
-
-            //var usua = from s in _context.Usuario select s;
-            //switch (buscar)
-            //{
-            //    case "Nombre_Desc":
-            //        usua = usua.OrderByDescending(s => s.Nombre);
-            //        break;
-
-            //    case "Date":
-            //      usua= usua.OrderByDescending(s => s.FechaNacimiento);
-            //        break;
-            //    case "Fecha_Desc":
-            //        usua = usua.OrderByDescending(s => s.FechaNacimiento);
-            //        break;
-            //    default:
-            //        usua = usua.OrderBy(s => s.Id);
-            //        break;
-            //}
-            //return View(usua.ToList());
-
-            List<Usuario> usuarioList = null;
-
-            if (!String.IsNullOrEmpty(buscar))
+            ViewData["Nombre"] = string.IsNullOrEmpty(orden) ? "Nombre_desc" : "";
+            ViewData["Usuario"] = orden == "Usuario" ? "Usu_desc" : "";
+            ViewData["Id"] = string.IsNullOrEmpty(orden) ? "Id_desc" : "";
+            ViewData["Correo"] = string.IsNullOrEmpty(orden) ? "Correo_desc" : "";
+            ViewData["Fecha"] = string.IsNullOrEmpty(orden) ? "Fecha_desc" : "";
+            ViewData["Direccion"] = string.IsNullOrEmpty(orden) ? "Direccion_desc" : "";
+            ViewData["Telefono"] = string.IsNullOrEmpty(orden) ? "Telefono_desc" : "";
+            if (buscar != null)
             {
-                usuarioList = _context.Usuario.Where(e => e.Nombre.Contains(buscar)).ToList();
-
+                page = 1;
             }
             else
             {
-                usuarioList = await _context.Usuario.ToListAsync();
+                buscar = filtro;
             }
+            ViewData["Filtro"] = buscar;
+            ViewData["OrdenActual"] = orden;
+
+            var usua = from s in _context.Usuario select s;
             
+            //int buscarId = Convert.ToInt32(buscar);
 
-            return View(usuarioList);
-            //int _TotalRegistros = 0;
-            //int _TotalPaginas = 0;
+            if (!String.IsNullOrEmpty(buscar))
+            {
+                //DateTime buscarValor = Convert.ToDateTime(buscar);
+                //string buscar2 = Convert.ToString(buscar);
+                usua = usua.Where(s => s.Nombre.Contains(buscar) || s.Usu.Contains(buscar) || s.Correo.Contains(buscar) || s.telefono.Equals(buscar) ||
+                //s.FechaNacimiento.Day.Equals( fecha.Day ) && s.FechaNacimiento.Month.Equals(fecha.Month) && s.FechaNacimiento.Year.Equals(fecha.Year) ||
+                //s.Id == Int32.Parse(buscar)
+                //|| s.Direccion.Contains(buscar)
+                
+                
+                s.Id.ToString()==buscar || Convert.ToString(s.FechaNacimiento).Equals(buscar)
+                ); 
+            }
 
+            switch (buscar)
+            {
+                case "Nombre_Desc":
+                    usua = usua.OrderByDescending(s => s.Nombre);
+                    break;
 
+               
+                case "Usu_desc":
+                    usua = usua.OrderByDescending(s => s.Usu);
+                    break;
+                case "Id_desc":
+                    usua = usua.OrderByDescending(s => s.Id);
+                    break;
+                case "Correo_desc":
+                    usua = usua.OrderByDescending(s => s.Correo);
+                    break;
+                case "Fecha_desc":
+                    usua = usua.OrderByDescending(s => s.FechaNacimiento);
+                    break;
+                case "Direccion_desc":
+                    usua = usua.OrderByDescending(s => s.Direccion);
+                    break;
+                case "Telefono_desc":
+                    usua = usua.OrderByDescending(s => s.telefono);
+                    break;
+                default:
+                    usua = usua.OrderBy(s => s.Id);
+                    break;
+            }
+            int pageSize = 8;
+            return View(await  Paginador<Usuario>.CreateAsync(usua.AsNoTracking(), page??1, pageSize));
 
-            //    // Recuperamos el 'DbSet' completo
-            //    _Usuario = _context.Usuario.ToList();
-            //    // Filtramos el resultado por el 'texto de búqueda'
-            //    if (!string.IsNullOrEmpty(buscar))
-            //    {
-            //        foreach (var item in buscar.Split(new char[] { ' ' },
-            //                 StringSplitOptions.RemoveEmptyEntries))
-            //        {
-            //            _Usuario = _Usuario.Where(x => x.Nombre.Contains(item) ||
-            //                                          x.Contrasena.Contains(item) ||
-            //                                          x.Usu.Contains(item))
-            //                                          .ToList();
-            //        }
-            //    }
-            //else
-            //{
-            //    // Número total de registros de la tabla Customers
-            //    _TotalRegistros = _Usuario.Count();
-            //    // Obtenemos la 'página de registros' de la tabla Customers
-            //    _Usuario = _Usuario.OrderBy(x => x.Nombre)
-            //                                     .Skip((pagina - 1) * _RegistrosPorPagina)
-            //                                     .Take(_RegistrosPorPagina)
-            //                                     .ToList();
-            //    // Número total de páginas de la tabla Customers
-            //    _TotalPaginas = (int)Math.Ceiling((double)_TotalRegistros / _RegistrosPorPagina);
-
-            //    // Instanciamos la 'Clase de paginación' y asignamos los nuevos valores
-            //    _PaginadorUsuario = new DataPaginador<Usuario>()
-            //    {
-            //        RegistrosPorPagina = _RegistrosPorPagina,
-            //        TotalRegistros = _TotalRegistros,
-            //        TotalPaginas = _TotalPaginas,
-            //        PaginaActual = pagina,
-            //        BusquedaActual = buscar,
-            //        Resultado = _Usuario
-            //    };
-            //}
-
-
-
-
-
-
-            //List<Usuario> usuarioList = null;
-            //if (search != null)
-            //{
-            //    usuarioList =  _context.Usuario.Include(e=>e.Nombre.Contains(search)).ToList();
-            //}
-            //else
-            //{
-            //    usuarioList = await _context.Usuario.ToListAsync();
-            //}
-
-            //string hots = Request.Scheme + "://" + Request.Host.Value;
-            //object[] resultado = new Paginador<Usuario>().paginador(usuarioList, pagina, registro, "Usuario", "Home", "ManteUsu", hots);
-
-            //DataPaginador<Usuario> usus = new DataPaginador<Usuario>
-            //{
-            //    Lista = (List<Usuario>) resultado[2],
-            //    Pagi_info = (string)resultado[0],
-            //    Pagi_navegacion = (string)resultado[1]
-
-            //};
-
-            ////return View(await _context.Usuario.ToListAsync());
-            //return View(_PaginadorUsuario);
+            
         }
 
         public IActionResult Crear()

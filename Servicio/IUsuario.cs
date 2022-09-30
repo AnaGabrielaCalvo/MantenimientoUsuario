@@ -7,5 +7,6 @@ namespace WebApplication6.Servicio
         List<Usuario> GetUsuario(string Nombre);
         void SaveOurUpdate(Usuario usuario);
         void Delete(int Id);
+        void FiltrarNombre(string Nombre);
     }
 }

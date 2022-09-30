@@ -16,6 +16,12 @@ namespace WebApplication6.Servicio
             var usuario = _context.Usuario.ToList();
         }
 
+        public void FiltrarNombre(string Nombre)
+        {
+            _context.Database.ExecuteSqlRaw($"PS_FiltrarNombre {Nombre}");
+            var usuario = _context.Usuario.ToList();
+        }
+
         public List<Usuario> GetUsuario(string Nombre)
         {
             throw new NotImplementedException();
