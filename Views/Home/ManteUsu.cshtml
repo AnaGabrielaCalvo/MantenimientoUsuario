@@ -36,6 +36,10 @@
                         <input type="submit" value="Buscar" class="btn btn-default"/>
                         <a asp-action="ManteUsu">Todos los registros</a> | Registros Mostrados @Model.TotalR
                     </p>
+                    @*<p>
+                        Filtro por fecha: <input type="text" name="buscarFecha" value="@ViewData["FiltroFecha"]"/>
+                        <input type="submit" value="Buscar" class="btn btn-default"/>
+                    </p>*@
                 </div>
 
             </form>
@@ -65,7 +69,7 @@
                                         <a asp-action="ManteUsu" asp-route-orden="@ViewData["Direccion"]" asp-route-filtro="@ViewData["Filtro"]" style="color:black">Direccion</a>
                                     </th>
                                     <th>
-                                        <a asp-action="ManteUsu" asp-route-orden="@ViewData["Fecha"]" asp-route-filtro="@ViewData["Filtro"]" style="color:black">Fecha de Nacimiento</a>
+                                        <a asp-action="ManteUsu" asp-route-buscarFecha="@ViewData["Fecha"]" asp-route-filtro="@ViewData["FiltroFecha"]" style="color:black">Fecha de Nacimiento</a>
                                        
                                     </th>
                                     <th>Acciones</th>

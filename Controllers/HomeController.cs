@@ -21,13 +21,13 @@ namespace WebApplication6.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ManteUsu(string orden, string buscar, string filtro, int ? page)
+        public async Task<IActionResult> ManteUsu(string orden, string buscar, DateTime buscarFecha, string filtro, string filtrofecha, int ? page)
         {
             ViewData["Nombre"] = string.IsNullOrEmpty(orden) ? "Nombre_desc" : "";
             ViewData["Usuario"] = orden == "Usuario" ? "Usu_desc" : "";
             ViewData["Id"] = string.IsNullOrEmpty(orden) ? "Id_desc" : "";
             ViewData["Correo"] = string.IsNullOrEmpty(orden) ? "Correo_desc" : "";
-            ViewData["Fecha"] = string.IsNullOrEmpty(orden) ? "Fecha_desc" : "";
+            ViewData["Fecha"] = string.IsNullOrEmpty(buscarFecha.ToString()) ? "Fecha_desc" : "";
             ViewData["Direccion"] = string.IsNullOrEmpty(orden) ? "Direccion_desc" : "";
             ViewData["Telefono"] = string.IsNullOrEmpty(orden) ? "Telefono_desc" : "";
             if (buscar != null)
@@ -37,8 +37,10 @@ namespace WebApplication6.Controllers
             else
             {
                 buscar = filtro;
+                buscarFecha = Convert.ToDateTime(filtrofecha);
             }
             ViewData["Filtro"] = buscar;
+            ViewData["FiltroFecha"] = buscarFecha;
             ViewData["OrdenActual"] = orden;
 
             var usua = from s in _context.Usuario select s;
@@ -50,12 +52,8 @@ namespace WebApplication6.Controllers
                 //DateTime buscarValor = Convert.ToDateTime(buscar);
                 //string buscar2 = Convert.ToString(buscar);
                 usua = usua.Where(s => s.Nombre.Contains(buscar) || s.Usu.Contains(buscar) || s.Correo.Contains(buscar) || s.telefono.Equals(buscar) ||
-                //s.FechaNacimiento.Day.Equals( fecha.Day ) && s.FechaNacimiento.Month.Equals(fecha.Month) && s.FechaNacimiento.Year.Equals(fecha.Year) ||
-                //s.Id == Int32.Parse(buscar)
-                //|| s.Direccion.Contains(buscar)
-                
-                
-                s.Id.ToString()==buscar || Convert.ToString(s.FechaNacimiento).Equals(buscar)
+                s.FechaNacimiento.CompareTo(buscarFecha)==0 ||
+                s.Id.ToString()==buscar || s.Direccion.Contains(buscar)
                 ); 
             }
 
